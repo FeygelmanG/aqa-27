@@ -1,6 +1,8 @@
 name: Build + tests
 
 on:
+  push:
+    branches: [ "master", "one27" ]
   pull_request:
     branches: ["master"]
 
