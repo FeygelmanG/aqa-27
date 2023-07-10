@@ -1,27 +1,70 @@
-name: Build + tests
+name: Java CI with Gradle
 
 on:
   push:
     branches: [ "master", "one27" ]
+  workflow_dispatch:
+    inputs:
+      TEST_ENDPOINT:
+        description: "Endpoint for tests"
+        required: true
+        default: https://dev.github.com
+      TEST_BROWSER:
+        description: "Browser for tests"
+        required: true
+        default: chrome
+      ALLURE_JOB_RUN_ID:
+        description: "ALLURE_JOB_RUN_ID service parameter. Leave blank."
+        required: false
+      ALLURE_USERNAME:
+        description: "ALLURE_USERNAME service parameter. Leave blank"
+        required: false
   pull_request:
-    branches: ["master"]
+    branches: [ "master" ]
 
 permissions:
   contents: read
 
+env:
+  ALLURE_ENDPOINT: https://innopolis.qatools.cloud
+  ALLURE_TOKEN: ${{ secrets.ALLURE_TOKEN }}
+  ALLURE_PROJECT_ID: ${{ secrets.ALLURE_PROJECT_ID }}
+  ALLURE_TESTPLAN_PATH: "./testplan.json"
+  ALLURE_RESULTS: "build/allure-results"
+  ALLURE_JOB_RUN_ID: ${{ github.event.inputs.ALLURE_JOB_RUN_ID }}
+
 jobs:
   build:
+
     runs-on: ubuntu-latest
+
     steps:
-      - name: Start selenoid
-        uses: Xotabu4/selenoid-github-action@v2
       - uses: actions/checkout@v3
       - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
           java-version: '11'
           distribution: 'temurin'
-      - name: Build with Gradle
-        uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+      - name: Start Selenoid
+        uses: Xotabu4/selenoid-github-action@v2
+      - name: install and configure allurectl
+        uses: allure-framework/setup-allurectl@v1
         with:
-          arguments: build
+          allure-endpoint: https://innopolis.qatools.cloud
+          allure-token: ${{ secrets.ALLURE_TOKEN }}
+          allure-project-id: ${{ secrets.ALLURE_PROJECT_ID }}
+      - name: Prepare TestPlan
+        run: allurectl job-run plan --output-file ${ALLURE_TESTPLAN_PATH}
+      #    - name: Build with Gradle
+      #      uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+      #      with:
+      #        arguments: build
+      - run: |
+          allurectl watch -- ./gradlew clean test
+          export $( allurectl job-run env)
+          printenv | grep TEST_
+          printenv | grep ALLURE_
+        env:
+          TEST_ENDPOINT: ${{ github.event.inputs.TEST_ENDPOINT }}
+          TEST_BROWSER: ${{ github.event.inputs.TEST_BROWSER }}
+          ALLURE_RESULTS: allure-results
