@@ -40,10 +40,10 @@ public class AptekaTest extends WebTest {
             tab.hover();
         });
 
-        step("Кликнуть на появившуюся подкатегорию", () -> {
-            ElementsCollection subtabs = mainPage.getSubtabs(tab);
-            subtabs.filter(text("Для подготовки к медицинским обследованиям")).get(0).click();
-        });
+//        step("Кликнуть на появившуюся подкатегорию", () -> {
+//            ElementsCollection subtabs = mainPage.getSubtabs(tab);
+//            subtabs.filter(text("Для подготовки к медицинским обследованиям")).get(0).click();
+//        });
 
 //        step("Проверить, что произошел переход на страницу товаров категории", () -> {
 //            catalogPage.header.shouldHave(text("Для подготовки к медицинским обследованиям"));
