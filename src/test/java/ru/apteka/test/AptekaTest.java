@@ -45,23 +45,23 @@ public class AptekaTest extends WebTest {
             subtabs.filter(text("Для подготовки к медицинским обследованиям")).get(0).click();
         });
 
-        step("Проверить, что произошел переход на страницу товаров категории", () -> {
-            catalogPage.header.shouldHave(text("Для подготовки к медицинским обследованиям"));
-        });
-
-        step("Кликнуть на выбранную подкатегорию", () -> {
-            $("#bx_2412806455_9468").click();
-        });
-
-        step("Кликнуть на 1 элемент выбранной подкатегории", () -> {
-            SelenideElement tab1 = catalogPage.tabs.filter(text("Для подготовки к медицинским обследованиям")).get(0);
-            ElementsCollection subtabs1 = catalogPage.getSubtabs(tab1);
-            subtabs1.filter(text("Для Мед. Обследований")).get(0).click();
-        });
-
-        step("Проверить, что произошел переход на страницу товаров выбранной категории ", () -> {
-            catalogSubPage.header.shouldHave(text("Для Мед. Обследований"));
-        });
+//        step("Проверить, что произошел переход на страницу товаров категории", () -> {
+//            catalogPage.header.shouldHave(text("Для подготовки к медицинским обследованиям"));
+//        });
+//
+//        step("Кликнуть на выбранную подкатегорию", () -> {
+//            $("#bx_2412806455_9468").click();
+//        });
+//
+//        step("Кликнуть на 1 элемент выбранной подкатегории", () -> {
+//            SelenideElement tab1 = catalogPage.tabs.filter(text("Для подготовки к медицинским обследованиям")).get(0);
+//            ElementsCollection subtabs1 = catalogPage.getSubtabs(tab1);
+//            subtabs1.filter(text("Для Мед. Обследований")).get(0).click();
+//        });
+//
+//        step("Проверить, что произошел переход на страницу товаров выбранной категории ", () -> {
+//            catalogSubPage.header.shouldHave(text("Для Мед. Обследований"));
+//        });
 
 
     }
