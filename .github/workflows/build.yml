@@ -4,7 +4,8 @@ on:
   pull_request:
     branches: [ "master" ]
   push:
-    workflow_dispatch:
+    branches: [ "master", "one27" ]
+  workflow_dispatch:
       inputs:
         TEST_ENDPOINT:
           description: "Endpoint for tests"
@@ -23,7 +24,7 @@ on:
 
 env:
   IS_REMOTE: true
-  ALLURE_ENDPOINT: https://testing.allure.aws.qameta.in
+  ALLURE_ENDPOINT: https://innopolis.qatools.cloud
   ALLURE_TOKEN: ${{ secrets.ALLURE_TOKEN }}
   ALLURE_PROJECT_ID: ${{ secrets.ALLURE_PROJECT_ID }}
   ALLURE_RESULTS: "build/allure-results"
