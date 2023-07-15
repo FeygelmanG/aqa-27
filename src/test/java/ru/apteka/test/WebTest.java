@@ -23,7 +23,7 @@ public class WebTest {
             WebDriver driver = new RemoteWebDriver(URI.create("http://localhost:4444/wd/hub").toURL(), chromeOptions);
             setWebDriver(driver);
         } else {
-            Configuration.browser = "firefox";
+            Configuration.browser = "chrome";
         }
     }
 }
